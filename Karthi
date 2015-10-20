@@ -1,0 +1,41 @@
+# Keyword Match Algorithm
+ss <- read.csv("keywords.csv")
+# Import the list of Keywords with first column as the keyword you wish to match and the tag you need to populate
+Keywords <- as.character(ss$Keywords)
+tags <- as.character(ss$Merchant_Name)
+for (i in 1:length(Keywords)) {
+for (j in 1:nrow(Data1)) {
+
+# Data1 is the complete data from which you are trying to extract the text. We will look at the text line by line
+if(grepl(Keywords[i],Data1[j,1]) == 1){Data1[j,2] <- tags[i]
+
+# Here is where you do an actual search
+Data1[j,4] <- 1
+
+# Flag 1 to those observations where you find a match
+}
+}
+}
+
+# Word Match Algorithm
+words <- read.csv("word_match.csv")
+word <- as.character(words$Keywords)
+tags <- as.character(words$Tag)
+
+for (i in 1:length(word)) {
+for (j in 1:nrow(Data1)) {
+if(word(unlist(Data1[j,1]),1) == word[i]){Data1[j,2] <- tags[i]
+Data1[j,4] <- 1
+}
+}
+}
+
+# General Expressions
+for (i in 1:nrow(Data1)) {
+if(grepl("WWW",Data1[i,1]) == 1 & grepl("COM",Data1[i,1]) == 1){
+start <- str_locate(unlist(Data1[i,1]),"WWW")[2]
+end <- str_locate(unlist(Data1[i,1]),"CO")[1]
+Data1[i,2] <- paste("www",tolower(substr(unlist(Data1[i,1]),start + 1,end-1)),"com", sep = ".")
+Data1[i,4] <- 1}
+}
+
